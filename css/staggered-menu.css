@@ -1,0 +1,247 @@
+/* StaggeredMenu — vanilla JS port (from React Bits), skinned to the ABST
+   vector-line design system. Toggle button lives in the page header;
+   the sliding panel + prelayer stripes live in a fixed body-level overlay. */
+
+.sm-toggle {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  color: #fff;
+  font-family: var(--font-mono);
+  font-size: 0.76rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  line-height: 1;
+  padding: 0;
+}
+
+.sm-toggle:focus-visible {
+  outline: 2px solid var(--accent-cyan);
+  outline-offset: 6px;
+}
+
+.sm-toggle-textWrap {
+  position: relative;
+  display: inline-block;
+  height: 1em;
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+.sm-toggle-textInner {
+  display: flex;
+  flex-direction: column;
+  line-height: 1;
+}
+
+.sm-toggle-line {
+  display: block;
+  height: 1em;
+  line-height: 1;
+}
+
+.sm-icon {
+  position: relative;
+  width: 14px;
+  height: 14px;
+  flex: 0 0 14px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.sm-icon-line {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 100%;
+  height: 2px;
+  background: currentColor;
+  transform: translate(-50%, -50%);
+}
+
+/* Overlay: fixed to the viewport, sits just below the header so the logo
+   and toggle always render above it. */
+
+.staggered-menu-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 9;
+  pointer-events: none;
+}
+
+.sm-prelayers {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  width: clamp(260px, 38vw, 420px);
+  pointer-events: none;
+  z-index: 1;
+}
+
+[data-position='left'] .sm-prelayers {
+  right: auto;
+  left: 0;
+}
+
+.sm-prelayer {
+  position: absolute;
+  inset: 0;
+}
+
+.staggered-menu-panel {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: clamp(260px, 38vw, 420px);
+  height: 100%;
+  background: var(--accent);
+  border-left: 1.5px solid rgba(255, 255, 255, 0.25);
+  display: flex;
+  flex-direction: column;
+  padding: 7.5em 2em 2em;
+  overflow-y: auto;
+  z-index: 2;
+  pointer-events: auto;
+}
+
+[data-position='left'] .staggered-menu-panel {
+  right: auto;
+  left: 0;
+  border-left: none;
+  border-right: 1.5px solid rgba(255, 255, 255, 0.25);
+}
+
+.sm-panel-inner {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.sm-panel-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
+.sm-panel-itemWrap {
+  position: relative;
+  overflow: visible;
+  line-height: 1;
+}
+
+.sm-panel-item {
+  position: relative;
+  display: inline-block;
+  color: #fff;
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: clamp(1.8rem, 6vw, 2.6rem);
+  letter-spacing: -0.01em;
+  text-transform: uppercase;
+  text-decoration: none;
+  line-height: 1;
+  cursor: pointer;
+  padding-right: 1.5em;
+  transform-origin: 0% 50%;
+  transition: transform 0.25s ease, color 0.25s ease;
+}
+
+.sm-panel-item:hover,
+.sm-panel-item.is-current {
+  transform: scale(1.1);
+  color: var(--sm-accent, var(--accent-cyan));
+}
+
+.sm-panel-itemLabel {
+  display: inline-block;
+  will-change: transform;
+  transform-origin: 50% 100%;
+}
+
+.sm-panel-list[data-numbering] {
+  counter-reset: smItem;
+}
+
+.sm-panel-list[data-numbering] .sm-panel-item::after {
+  counter-increment: smItem;
+  content: counter(smItem, decimal-leading-zero);
+  position: absolute;
+  top: 0.25em;
+  right: 0.1em;
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: var(--sm-accent, var(--accent));
+  opacity: var(--sm-num-opacity, 0);
+  pointer-events: none;
+  user-select: none;
+}
+
+.sm-socials {
+  margin-top: auto;
+  padding-top: 2rem;
+  border-top: 1.5px solid rgba(255, 255, 255, 0.25);
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.sm-socials-title {
+  margin: 0;
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.65);
+}
+
+.sm-socials-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.sm-socials-link {
+  font-family: var(--font-mono);
+  font-size: 0.82rem;
+  font-weight: 600;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+  color: #fff;
+  text-decoration: none;
+  border-bottom: 1.5px solid transparent;
+  padding-bottom: 2px;
+  transition: color 0.2s, border-color 0.2s;
+}
+
+.sm-socials-link:hover {
+  color: var(--sm-accent, var(--accent));
+  border-color: var(--sm-accent, var(--accent));
+}
+
+@media (max-width: 1024px) {
+  .sm-prelayers,
+  .staggered-menu-panel {
+    width: 100%;
+  }
+
+  [data-position='left'] .sm-prelayers,
+  [data-position='left'] .staggered-menu-panel {
+    left: 0;
+  }
+}

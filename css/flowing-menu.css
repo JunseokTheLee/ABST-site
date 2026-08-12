@@ -1,0 +1,122 @@
+/* FlowingMenu — vanilla JS port (from React Bits), skinned to the ABST
+   vector-line design system. A vertical stack of links; hovering an item
+   slides a marquee band of the same label + tag in from the nearest edge. */
+
+.fm-host {
+  --fm-bg: var(--dark);
+  --fm-text: #ffffff;
+  --fm-border: var(--dark-line);
+  --fm-marquee-bg: var(--accent-cyan);
+  --fm-marquee-fg: var(--dark);
+  position: relative;
+  overflow: hidden;
+  min-height: 420px;
+  border: 1.5px solid var(--line-strong);
+}
+
+.fm-wrap {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  background: var(--fm-bg);
+}
+
+.fm-menu {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+.fm-item {
+  flex: 1;
+  position: relative;
+  overflow: hidden;
+  text-align: center;
+  border-top: 1px solid var(--fm-border);
+}
+
+.fm-item:first-child { border-top: none; }
+
+.fm-item-link {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  position: relative;
+  cursor: pointer;
+  text-transform: uppercase;
+  text-decoration: none;
+  white-space: nowrap;
+  font-family: var(--font-display);
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  font-size: clamp(1.4rem, 4vw, 2.6rem);
+  color: var(--fm-text);
+}
+
+.fm-item-link:focus:not(:focus-visible) { color: inherit; }
+
+.fm-marquee {
+  position: absolute;
+  top: 0;
+  left: 0;
+  overflow: hidden;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  background: var(--fm-marquee-bg);
+  transform: translate3d(0, 101%, 0);
+}
+
+.fm-marquee-inner-wrap {
+  height: 100%;
+  width: 100%;
+  overflow: hidden;
+}
+
+.fm-marquee-inner {
+  display: flex;
+  align-items: center;
+  position: relative;
+  height: 100%;
+  width: fit-content;
+  will-change: transform;
+}
+
+.fm-marquee-part {
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+}
+
+.fm-marquee-text {
+  white-space: nowrap;
+  text-transform: uppercase;
+  font-family: var(--font-display);
+  font-weight: 600;
+  line-height: 1;
+  font-size: clamp(1.4rem, 4vw, 2.6rem);
+  padding: 0 1vw;
+  color: var(--fm-marquee-fg);
+}
+
+.fm-marquee-tag {
+  display: inline-flex;
+  align-items: center;
+  font-family: var(--font-mono);
+  font-weight: 600;
+  font-size: 0.72rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--fm-marquee-fg);
+  border: 1.5px solid var(--fm-marquee-fg);
+  padding: 6px 12px;
+  margin: 0 1.4vw;
+}
+
+@media (max-width: 640px) {
+  .fm-item-link,
+  .fm-marquee-text { font-size: 1.4rem; }
+}

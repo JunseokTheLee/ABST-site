@@ -1,0 +1,33 @@
+/* PageTransitions — a quick fade+lift on the page's main content, played
+   as a plain CSS animation rather than a JS-driven opacity toggle. It
+   runs the instant <main class="ptx-content"> paints (stylesheets block
+   first paint, so there's no gap where JS hasn't run yet and the content
+   sits blank) — no flash, and it works even with JS disabled. JS
+   (page-transitions.js) only adds the .ptx-out class to play the matching
+   exit animation before following an internal link. Only the main content
+   animates; header/nav and footer are untouched persistent chrome. */
+
+main.ptx-content {
+  animation: ptx-in 0.35s ease-out both;
+}
+
+main.ptx-content.ptx-out {
+  animation: ptx-out 0.2s ease-in forwards;
+}
+
+@keyframes ptx-in {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes ptx-out {
+  from { opacity: 1; transform: translateY(0); }
+  to { opacity: 0; transform: translateY(-8px); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  main.ptx-content,
+  main.ptx-content.ptx-out {
+    animation: none;
+  }
+}

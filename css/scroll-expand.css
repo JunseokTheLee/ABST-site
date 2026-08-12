@@ -1,0 +1,211 @@
+/* ScrollExpand — base component styles (React Bits, ported) */
+
+.scroll-expand {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+.scroll-expand--scroller {
+  overflow-y: auto;
+  overflow-x: hidden;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  overscroll-behavior: contain;
+}
+
+.scroll-expand--scroller::-webkit-scrollbar {
+  display: none;
+}
+
+.scroll-expand__track {
+  position: relative;
+  width: 100%;
+}
+
+.scroll-expand__stage {
+  position: sticky;
+  top: 0;
+  width: 100%;
+  overflow: hidden;
+  --se-title-size: 4rem;
+}
+
+.scroll-expand__frame {
+  position: absolute;
+  inset: 0;
+  clip-path: inset(21% 29% 21% 29% round 24px);
+  will-change: clip-path;
+}
+
+.scroll-expand__media {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  will-change: transform;
+  transform-origin: center;
+  user-select: none;
+  -webkit-user-drag: none;
+}
+
+.scroll-expand__scrim {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.75), rgba(0, 0, 0, 0.1) 45%, rgba(0, 0, 0, 0.35));
+  opacity: 0;
+}
+
+.scroll-expand__overlay {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 6%;
+  opacity: 0;
+  will-change: opacity, transform;
+}
+
+.scroll-expand__title {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0;
+  padding: 0 6%;
+  text-align: center;
+  font-size: var(--se-title-size);
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  line-height: 1;
+  color: #fff;
+  text-shadow: 0 2px 24px rgba(0, 0, 0, 0.45);
+  pointer-events: none;
+  will-change: opacity, transform;
+}
+
+.scroll-expand__hint {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 1.25rem;
+  text-align: center;
+  font-size: 0.8125rem;
+  letter-spacing: 0.02em;
+  color: rgba(255, 255, 255, 0.55);
+  pointer-events: none;
+  will-change: opacity, transform;
+}
+
+/* Outer placeholder tiles — scattered on the stage background, around the frame margins.
+   Fade out early in the scroll (see applyProgress) before the frame expands over them. */
+
+.scroll-expand__outer-tile {
+  position: absolute;
+  background: var(--dark-2);
+  border: 1px solid var(--dark-line);
+  display: flex;
+  align-items: flex-end;
+  justify-content: flex-start;
+  overflow: hidden;
+  will-change: opacity, scale, translate;
+  z-index: 1;
+}
+
+.scroll-expand__outer-tile-label {
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  letter-spacing: 0.06em;
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.4);
+  padding: 10px 12px;
+}
+
+.scroll-expand__outer-tile--1 { top: 9%;  left: 3%; width: 24%; height: 27%; }
+.scroll-expand__outer-tile--2 { top: 64%; left: 2%; width: 22%; height: 28%; }
+.scroll-expand__outer-tile--3 { top: 5%;  right: 3%; width: 23%; height: 28%; }
+.scroll-expand__outer-tile--4 { top: 60%; right: 2%; width: 22%; height: 30%; }
+.scroll-expand__outer-tile--5 { top: 81%; left: 39%; width: 22%; height: 16%; }
+
+/* Idle float — subtle continuous wobble, independent of the scroll-driven scale/translate above */
+
+@media (prefers-reduced-motion: no-preference) {
+  .scroll-expand__outer-tile {
+    animation-name: se-outer-float;
+    animation-timing-function: ease-in-out;
+    animation-iteration-count: infinite;
+  }
+
+  .scroll-expand__outer-tile--1 { animation-duration: 5.6s; animation-delay: 0s; }
+  .scroll-expand__outer-tile--2 { animation-duration: 6.8s; animation-delay: 0.6s; }
+  .scroll-expand__outer-tile--3 { animation-duration: 6.2s; animation-delay: 1.2s; }
+  .scroll-expand__outer-tile--4 { animation-duration: 7.4s; animation-delay: 0.3s; }
+  .scroll-expand__outer-tile--5 { animation-duration: 5.9s; animation-delay: 0.9s; }
+}
+
+@keyframes se-outer-float {
+  0%, 100% { rotate: 0deg; }
+  25% { rotate: 1.6deg; }
+  75% { rotate: -1.6deg; }
+}
+
+@media (max-width: 640px) {
+  .scroll-expand__outer-tile { display: none; }
+}
+
+/* ABST homepage hero — scoped overrides */
+
+#hero-scroll-expand .scroll-expand__stage {
+  background: var(--dark);
+  background-image:
+    linear-gradient(var(--dark-line) 1px, transparent 1px),
+    linear-gradient(90deg, var(--dark-line) 1px, transparent 1px);
+  background-size: 44px 44px;
+  min-height: 560px;
+}
+
+#hero-scroll-expand .scroll-expand__stage::before,
+#hero-scroll-expand .scroll-expand__stage::after {
+  content: '';
+  position: absolute;
+  width: 26px;
+  height: 26px;
+  border-color: var(--accent-cyan);
+  border-style: solid;
+  opacity: 0.85;
+  pointer-events: none;
+  z-index: 5;
+}
+
+#hero-scroll-expand .scroll-expand__stage::before { top: 22px; left: 22px; border-width: 2px 0 0 2px; }
+#hero-scroll-expand .scroll-expand__stage::after { bottom: 22px; right: 22px; border-width: 0 2px 2px 0; }
+
+#hero-scroll-expand .scroll-expand__title {
+  font-family: var(--font-display);
+  max-width: 24ch;
+  margin: 0 auto;
+}
+
+#hero-scroll-expand .scroll-expand__overlay .eyebrow {
+  justify-content: center;
+}
+
+#hero-scroll-expand .scroll-expand__overlay .hero-sub {
+  max-width: 52ch;
+}
+
+@media (max-width: 640px) {
+  #hero-scroll-expand .scroll-expand__stage::before,
+  #hero-scroll-expand .scroll-expand__stage::after {
+    width: 18px;
+    height: 18px;
+  }
+  #hero-scroll-expand .scroll-expand__stage::before { top: 14px; left: 14px; }
+  #hero-scroll-expand .scroll-expand__stage::after { bottom: 14px; right: 14px; }
+}
