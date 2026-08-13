@@ -36,11 +36,12 @@
         scrollDistance: 1.2,
         holdDistance: 0.35,
         smoothing: 0.1,
-        overlayScrim: 0.45,
+        overlayScrim: 0.65,
         useWindowScroll: false,
         enabled: true,
         usePlaceholderMedia: false,
         outerTiles: 0,
+        outerTileImages: [],
         childrenHTML: ''
       },
       options || {}
@@ -100,7 +101,19 @@
     for (let i = 1; i <= tileCount; i++) {
       const tile = document.createElement('div');
       tile.className = `scroll-expand__outer-tile scroll-expand__outer-tile--${i}`;
-      tile.innerHTML = `<span class="scroll-expand__outer-tile-label">IMG 0${i}</span>`;
+
+      const tileImage = opts.outerTileImages[i - 1];
+      if (tileImage) {
+        const img = document.createElement('img');
+        img.className = 'scroll-expand__outer-tile-img';
+        img.src = typeof tileImage === 'string' ? tileImage : tileImage.src;
+        img.alt = '';
+        img.draggable = false;
+        tile.appendChild(img);
+      } else {
+        tile.innerHTML = `<span class="scroll-expand__outer-tile-label">IMG 0${i}</span>`;
+      }
+
       stage.appendChild(tile);
       outerTileEls.push(tile);
     }

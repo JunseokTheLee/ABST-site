@@ -53,12 +53,11 @@
         text.textContent = item.text;
         part.appendChild(text);
 
-        if (item.tag) {
-          const tag = document.createElement('span');
-          tag.className = 'fm-marquee-tag';
-          tag.textContent = item.tag;
-          part.appendChild(tag);
-        }
+        const placeholder = document.createElement('span');
+        placeholder.className = 'fm-marquee-placeholder';
+        placeholder.setAttribute('aria-hidden', 'true');
+        placeholder.textContent = 'IMG';
+        part.appendChild(placeholder);
 
         inner.appendChild(part);
       }

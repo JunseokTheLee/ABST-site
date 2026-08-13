@@ -3,24 +3,93 @@
 // the homepage automatically shows the 3 most recent by date.
 const ABST_POSTS = [
   {
+    title: 'Spotlight: Minjae Kang',
+    date: '2025-08-19',
+    tag: 'Interview',
+    url: 'blog/minjae-kang.html',
+    thumb: 'blog/blog_images/minjae/minjae1.png'
+  },
+  {
+    title: 'Spotlight: Sun Lee',
+    date: '2025-08-21',
+    tag: 'Interview',
+    url: 'blog/sun-lee.html',
+    thumb: 'blog/blog_images/sun/sun1.avif'
+  },
+  {
+    title: 'Spotlight: Jaeyong Choi',
+    date: '2025-09-05',
+    tag: 'Interview',
+    url: 'blog/jaeyong-choi.html',
+    thumb: 'blog/blog_images/jaeyong/jaeyong1.avif'
+  },
+  {
+    title: 'Spotlight: Zion Choi',
+    date: '2025-09-25',
+    tag: 'Interview',
+    url: 'blog/zion-choi.html',
+    thumb: 'blog/blog_images/zion/zion1.avif'
+  },
+  {
+    title: 'Spotlight: Woojin Son',
+    date: '2025-10-20',
+    tag: 'Interview',
+    url: 'blog/woojin-son.html',
+    thumb: 'blog/blog_images/woojin/woojin1.png'
+  },
+  {
+    title: 'Spotlight: Eungku Kim',
+    date: '2025-11-22',
+    tag: 'Interview',
+    url: 'blog/eungku-kim.html',
+    thumb: 'blog/blog_images/eungku/eungku1.avif'
+  },
+  {
+    title: 'Spotlight: Nayun Kim',
+    date: '2025-12-22',
+    tag: 'Interview',
+    url: 'blog/nayun-kim.html',
+    thumb: 'blog/blog_images/nayun/blog-nayunkimsp-spotlight-nayun-kim-001.png'
+  },
+  {
+    title: 'Spotlight Special: Sejong Kim',
+    date: '2025-12-29',
+    tag: 'Interview',
+    url: 'blog/sejong-kim.html',
+    thumb: 'blog/blog_images/sejong/shared-spotlight-special-sejeong-ki-013.png'
+  },
+  {
+    title: 'Spotlight: Yeolim Yang',
+    date: '2026-01-26',
+    tag: 'Interview',
+    url: 'blog/yeolim-yang.html',
+    thumb: 'blog/blog_images/yeolim/blog-yeolimsp-spotlight-yeolim-yang-001.png'
+  },
+  {
+    title: 'Spotlight: Yongwon Kim',
+    date: '2026-01-27',
+    tag: 'Interview',
+    url: 'blog/yongwon-kim.html',
+    thumb: 'blog/blog_images/yongwon/blog-yongwonsp-spotlight-yongwon-kim-001.png'
+  },
+  {
+    title: 'Spotlight: An Dre',
+    date: '2026-05-19',
+    tag: 'Interview',
+    url: 'blog/an-dre.html',
+    thumb: 'blog/blog_images/andre/shared-spotlight-an-dre-008.png'
+  },
+  {
+    title: 'Spotlight:  Sieun Park',
+    date: '2026-05-20',
+    tag: 'Interview',
+    url: 'blog/sieun-park.html',
+    thumb: 'blog/blog_images/sieun/sieun.avif'
+  },
+  {
     title: 'Welcome to the New ABST Site',
     date: '2026-08-12',
     tag: 'Announcement',
-    excerpt: 'ABST: Art Beyond Some Thresholds now has a home online. Here is what we are building toward as we head into our 3rd annual exhibition.',
-    url: 'blogs/sample-blog.html'
-  },
-  {
-    title: 'The Flatland Dream — 2025 Exhibition Recap',
-    date: '2025-06-03',
-    tag: 'Exhibition',
-    excerpt: 'Twenty works, seventeen artists, one shared canvas. A look back at our second annual exhibition at the Jeju International Peace Centre.',
-    url: 'blogs/flatland-dream-2025.html'
-  },
-  {
-    title: 'Building the 2024 Virtual Interactive Space',
-    date: '2024-12-01',
-    tag: 'Exhibition',
-    excerpt: 'How we translated a physical exhibition into an explorable virtual gallery, and why the digital space matters as much as the walls.',
-    url: 'blogs/virtual-space-2024.html'
+    url: 'blog/sample-blog.html'
   }
 ];

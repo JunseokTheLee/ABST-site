@@ -415,6 +415,7 @@ h1, h2, h3 {
   aspect-ratio: 4 / 3;
   background: var(--paper-tint);
   border-bottom: 1.5px solid var(--line-strong);
+  overflow: hidden;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -427,6 +428,13 @@ h1, h2, h3 {
   text-transform: uppercase;
   font-weight: 600;
   color: var(--accent-deep);
+}
+
+.post-thumb img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 }
 
 .post-body {
@@ -528,6 +536,10 @@ h1, h2, h3 {
   margin: 0 auto;
 }
 
+.scroll-expand-hero + .post-page {
+  padding-top: 64px;
+}
+
 .post-page .back-link {
   display: inline-flex;
   align-items: center;
@@ -556,9 +568,18 @@ h1, h2, h3 {
 .post-page .post-hero {
   position: relative;
   margin: 28px 0 36px;
-  height: 320px;
+  height: 460px;
   border: 1.5px solid var(--line-strong);
-  clip-path: polygon(0 0, calc(100% - 36px) 0, 100% 36px, 100% 100%, 0 100%);
+  border-radius: 14px;
+  overflow: hidden;
+  background: var(--dark);
+}
+
+.post-page .post-hero img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
 }
 
 .post-page p {
@@ -577,4 +598,5 @@ h1, h2, h3 {
   .bracket-frame::before,
   .bracket-frame::after { width: 18px; height: 18px; top: 14px; left: 14px; }
   .bracket-frame::after { top: auto; left: auto; bottom: 14px; right: 14px; }
+  .post-page .post-hero { height: 320px; }
 }

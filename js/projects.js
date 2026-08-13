@@ -2,6 +2,13 @@
 // Add an entry here whenever a new project page is added to the folder.
 const ABST_PROJECTS = [
   {
+    title: 'Abstraction',
+    meta: 'Coming Soon',
+    tag: 'Coming Soon',
+    excerpt: 'Details for this project are still being written. Check back soon.',
+    url: 'projects/abstraction.html'
+  },
+  {
     title: 'The Flatland Dream',
     meta: 'Exhibition Theme · 2025',
     tag: 'Exhibition Theme',
@@ -15,13 +22,7 @@ const ABST_PROJECTS = [
     excerpt: 'How NLCS Jeju students planned, executed, and contributed to the 2025 exhibition alongside our autistic youth art creators.',
     url: 'projects/flatlandnlcs.html'
   },
-  {
-    title: 'Abstraction',
-    meta: 'Coming Soon',
-    tag: 'Coming Soon',
-    excerpt: 'Details for this project are still being written. Check back soon.',
-    url: 'projects/abstraction.html'
-  },
+  
   {
     title: 'Cradle',
     meta: 'Coming Soon',

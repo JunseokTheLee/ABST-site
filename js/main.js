@@ -8,7 +8,9 @@ document.addEventListener('DOMContentLoaded', () => {
   if (typeof ABST_PROJECTS !== 'undefined') {
     initProjectsMenu(ABST_PROJECTS);
   }
+  initActivityCarousel();
   initHomeHero();
+  initProjectHero();
   initSiteMenu();
   initSiteCursor();
 });
@@ -25,6 +27,16 @@ function initProjectsMenu(projects) {
     marqueeBgColor: '#00c2ff',
     marqueeTextColor: '#050810',
     borderColor: 'rgba(255, 255, 255, 0.18)'
+  });
+}
+
+function initActivityCarousel() {
+  const viewport = document.getElementById('spotlight-carousel-track');
+  if (!viewport || typeof ABST_ACTIVITIES === 'undefined' || typeof initSideCarousel === 'undefined') return;
+
+  initSideCarousel(viewport, ABST_ACTIVITIES, {
+    prevBtn: document.getElementById('spotlight-carousel-prev'),
+    nextBtn: document.getElementById('spotlight-carousel-next')
   });
 }
 
@@ -74,8 +86,14 @@ function initHomeHero() {
   if (!root || typeof initScrollExpand === 'undefined') return;
 
   initScrollExpand(root, {
-    usePlaceholderMedia: true,
-    outerTiles: 5,
+    usePlaceholderMedia: false,
+    mediaType: 'image',
+    src: 'images/main.jpg',
+    alt: 'Visitors viewing artwork at an ABST exhibition',
+    outerTiles: 0,
+    outerTileImages: [
+      
+    ],
     useWindowScroll: true,
     title: 'ABST EXHIBITIONS',
     titleTag: 'h1',
@@ -85,6 +103,29 @@ function initHomeHero() {
       <p class="eyebrow">Art Beyond Some Thresholds</p>
       <p class="hero-sub">Based in Jeju Island, ABST brings together high school art students and local autistic/disabled youth artists to build exhibitions rooted in collaboration, not just inclusion.</p>
       <a class="scroll-cue cursor-target" href="#posts">Scroll to see our journal ↓</a>
+    `
+  });
+}
+
+function initProjectHero() {
+  const root = document.getElementById('project-hero-scroll-expand');
+  if (!root || typeof initScrollExpand === 'undefined') return;
+
+  const title = root.dataset.title || '';
+  const eyebrow = root.dataset.eyebrow || '';
+  const cta = root.dataset.cta || '';
+  const ctaTarget = root.dataset.ctaTarget || '#project-content';
+
+  initScrollExpand(root, {
+    usePlaceholderMedia: true,
+    useWindowScroll: true,
+    title,
+    titleTag: 'div',
+    scrollDistance: 1.2,
+    holdDistance: 0.35,
+    childrenHTML: `
+      ${eyebrow ? `<p class="eyebrow">${eyebrow}</p>` : ''}
+      ${cta ? `<a class="scroll-cue cursor-target" href="${ctaTarget}">${cta}</a>` : ''}
     `
   });
 }
@@ -112,12 +153,11 @@ function renderCard(item) {
 
   return `
     <a class="post-card" href="${item.url}">
-      <div class="post-thumb" aria-hidden="true"><span>Image placeholder</span></div>
+      <div class="post-thumb" aria-hidden="true">${item.thumb ? `<img src="${item.thumb}" alt="" loading="lazy">` : '<span>Image placeholder</span>'}</div>
       <div class="post-body">
         <span class="post-tag">${item.tag}</span>
         <h3>${item.title}</h3>
         ${metaLine}
-        <p>${item.excerpt}</p>
         <span class="read-more">Read more &rarr;</span>
       </div>
     </a>

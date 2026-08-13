@@ -1,0 +1,123 @@
+/* Side-scrolling carousel — minimalist single-image slider, skinned to the
+   ABST vector-line design system. Button + autoplay driven; scroll-snap
+   settles each index into place. Thin corner-bracket accents on hover
+   match .post-card. */
+
+.carousel-section {
+  padding: 64px 40px 48px;
+}
+
+.carousel-shell {
+  position: relative;
+  max-width: 1400px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.carousel-viewport {
+  flex: 1;
+  display: flex;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  scroll-behavior: smooth;
+  padding: 4px 0 20px;
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.carousel-viewport::-webkit-scrollbar { display: none; }
+
+.carousel-item {
+  position: relative;
+  flex: 0 0 100%;
+  width: 100%;
+  margin: 0;
+  display: flex;
+  justify-content: center;
+  scroll-snap-align: center;
+}
+
+.carousel-item .carousel-thumb {
+  width: min(1200px, 100%);
+  border: 1.5px solid var(--line-strong);
+  transition: border-color 0.18s ease;
+}
+
+.carousel-item:hover .carousel-thumb {
+  border-color: var(--accent);
+}
+
+.carousel-thumb::before,
+.carousel-thumb::after {
+  content: '';
+  position: absolute;
+  width: 12px;
+  height: 12px;
+  border-color: var(--accent-cyan);
+  border-style: solid;
+  opacity: 0;
+  transition: opacity 0.18s ease;
+  pointer-events: none;
+  z-index: 2;
+}
+
+.carousel-thumb::before { top: -1.5px; left: -1.5px; border-width: 2px 0 0 2px; }
+.carousel-thumb::after { bottom: -1.5px; right: -1.5px; border-width: 0 2px 2px 0; }
+
+.carousel-item:hover .carousel-thumb::before,
+.carousel-item:hover .carousel-thumb::after { opacity: 1; }
+
+.carousel-thumb {
+  position: relative;
+  aspect-ratio: 16 / 9;
+  min-height: 420px;
+  background: var(--paper-tint);
+  overflow: hidden;
+}
+
+.carousel-thumb img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  pointer-events: none;
+  -webkit-user-drag: none;
+}
+
+.carousel-thumb-placeholder {
+  background: var(--dark);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.carousel-arrow {
+  flex: 0 0 auto;
+  width: 60px;
+  height: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1.5px solid var(--line-strong);
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--font-mono);
+  font-size: 1.4rem;
+  line-height: 1;
+  cursor: pointer;
+  transition: background 0.15s, color 0.15s, border-color 0.15s;
+}
+
+.carousel-arrow:hover {
+  background: var(--ink);
+  color: #fff;
+  border-color: var(--ink);
+}
+
+@media (max-width: 640px) {
+  .carousel-section { padding: 40px 20px 24px; }
+  .carousel-thumb { min-height: 220px; }
+  .carousel-arrow { display: none; }
+}

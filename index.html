@@ -8,6 +8,7 @@
 <meta name="description" content="ABST expands global awareness of autism spectrum disorder and learning disabilities through collaborative art exhibitions between high school students and autistic/disabled youth artists.">
 <link rel="stylesheet" href="css/style.css">
 <link rel="stylesheet" href="css/scroll-expand.css">
+<link rel="stylesheet" href="css/carousel.css">
 <link rel="stylesheet" href="css/staggered-menu.css">
 <link rel="stylesheet" href="css/target-cursor.css">
 <link rel="stylesheet" href="css/page-transitions.css">
@@ -23,7 +24,35 @@
 
 <main class="ptx-content">
 
-<section id="hero-scroll-expand"></section>
+<section id="hero-scroll-expand" class="scroll-expand-hero"></section>
+
+<section id="about" class="mission container">
+  <h2>What is ABST?</h2>
+  <p>ABST — Art Beyond Some Thresholds — brings together high school art students and local autistic/disabled youth artists to build exhibitions rooted in real collaboration. Rather than simply displaying work side by side, artists partner directly, moving beyond representation toward genuine co-creation.</p>
+  <div class="stats">
+    <div>
+      <strong>3rd</strong>
+      <span>Exhibition, May 2026</span>
+    </div>
+    <div>
+      <strong>4</strong>
+      <span>Partner schools</span>
+    </div>
+    <div>
+      <strong>17</strong>
+      <span>Artists in 2025</span>
+    </div>
+  </div>
+  <a class="view-all cursor-target" href="about.html">Learn more about us &rarr;</a>
+</section>
+
+<section id="spotlight-carousel" class="carousel-section">
+  <div class="carousel-shell">
+    <button id="spotlight-carousel-prev" class="carousel-arrow cursor-target" type="button" aria-label="Scroll left">&larr;</button>
+    <div id="spotlight-carousel-track" class="carousel-viewport"></div>
+    <button id="spotlight-carousel-next" class="carousel-arrow cursor-target" type="button" aria-label="Scroll right">&rarr;</button>
+  </div>
+</section>
 
 <section id="posts" class="posts container">
   <div class="posts-heading">
@@ -47,7 +76,9 @@
 </footer>
 
 <script src="js/posts.js"></script>
+<script src="js/activities.js"></script>
 <script src="js/scroll-expand.js"></script>
+<script src="js/carousel.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
 <script src="js/staggered-menu.js"></script>
 <script src="js/target-cursor.js"></script>
