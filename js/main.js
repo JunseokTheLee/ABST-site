@@ -11,6 +11,8 @@ document.addEventListener('DOMContentLoaded', () => {
   initActivityCarousel();
   initHomeHero();
   initProjectHero();
+  initProjectGallery();
+  initArtworkLightbox();
   initSiteMenu();
   initSiteCursor();
 });
@@ -20,7 +22,7 @@ function initProjectsMenu(projects) {
   if (!mount || typeof initFlowingMenu === 'undefined') return;
 
   initFlowingMenu(mount, {
-    items: projects.map(p => ({ link: p.url, text: p.title, tag: p.tag })),
+    items: projects.map(p => ({ link: p.url, text: p.title, tag: p.tag, image: p.image, hoverImage: p.hoverImage })),
     speed: 18,
     bgColor: '#050810',
     textColor: '#ffffff',
@@ -89,6 +91,7 @@ function initHomeHero() {
     usePlaceholderMedia: false,
     mediaType: 'image',
     src: 'images/main.jpg',
+    srcColor: 'images/main-color.jpg',
     alt: 'Visitors viewing artwork at an ABST exhibition',
     outerTiles: 0,
     outerTileImages: [
@@ -115,9 +118,13 @@ function initProjectHero() {
   const eyebrow = root.dataset.eyebrow || '';
   const cta = root.dataset.cta || '';
   const ctaTarget = root.dataset.ctaTarget || '#project-content';
+  const image = root.dataset.image || '';
 
   initScrollExpand(root, {
-    usePlaceholderMedia: true,
+    usePlaceholderMedia: !image,
+    mediaType: 'image',
+    src: image,
+    alt: title,
     useWindowScroll: true,
     title,
     titleTag: 'div',
@@ -130,11 +137,31 @@ function initProjectHero() {
   });
 }
 
+function initProjectGallery() {
+  const root = document.querySelector('[data-project-gallery]');
+  if (!root || typeof ABST_PROJECT_GALLERIES === 'undefined') return;
+
+  const data = ABST_PROJECT_GALLERIES[root.dataset.projectGallery];
+  if (!data) return;
+
+  const viewport = document.getElementById('project-carousel-track');
+  if (viewport && typeof initSideCarousel !== 'undefined') {
+    initSideCarousel(viewport, data.carousel || [], {
+      prevBtn: document.getElementById('project-carousel-prev'),
+      nextBtn: document.getElementById('project-carousel-next')
+    });
+  }
+
+  const grid = document.getElementById('project-artworks-grid');
+  renderGrid('project-artworks-grid', data.artworks, renderArtworkCard);
+  if (grid) grid.artworkItems = data.artworks;
+}
+
 function sortByDateDesc(items) {
   return [...items].sort((a, b) => new Date(b.date) - new Date(a.date));
 }
 
-function renderGrid(gridId, items) {
+function renderGrid(gridId, items, renderFn) {
   const grid = document.getElementById(gridId);
   if (!grid) return;
 
@@ -143,7 +170,7 @@ function renderGrid(gridId, items) {
     return;
   }
 
-  grid.innerHTML = items.map(renderCard).join('');
+  grid.innerHTML = items.map(renderFn || renderCard).join('');
 }
 
 function renderCard(item) {
@@ -162,6 +189,140 @@ function renderCard(item) {
       </div>
     </a>
   `;
+}
+
+function renderArtworkCard(item, index) {
+  return `
+    <button type="button" class="post-card artwork-card cursor-target" data-artwork-index="${index}">
+      <div class="post-thumb" aria-hidden="true">${item.thumb ? `<img src="${item.thumb}" alt="" loading="lazy">` : '<span>Image placeholder</span>'}</div>
+      <div class="post-body">
+        <span class="post-tag">Artwork</span>
+        <h3>${item.title}</h3>
+        ${item.artist ? `<span class="post-body-meta">${item.artist}</span>` : ''}
+        <span class="read-more">View artwork &rarr;</span>
+      </div>
+    </button>
+  `;
+}
+
+function initArtworkLightbox() {
+  const grids = document.querySelectorAll('.posts-grid');
+  if (!grids.length) return;
+
+  let overlay = null;
+  let mediaCarousel = null;
+
+  function closeLightbox() {
+    if (!overlay) return;
+    if (mediaCarousel) {
+      mediaCarousel.destroy();
+      mediaCarousel = null;
+    }
+    overlay.remove();
+    overlay = null;
+    document.body.classList.remove('lightbox-open');
+    document.removeEventListener('keydown', onKeydown);
+  }
+
+  function onKeydown(e) {
+    if (e.key === 'Escape') closeLightbox();
+  }
+
+  function youtubeEmbedUrl(video) {
+    if (!video) return '';
+    const match = video.match(/(?:youtu\.be\/|v=|embed\/)([\w-]{11})/);
+    const id = match ? match[1] : video;
+    // youtube-nocookie.com throws error 153 ("video player configuration
+    // error") for some videos/origins — the plain embed domain doesn't.
+    return `https://www.youtube.com/embed/${id}`;
+  }
+
+  function openLightbox({ title, artist, image, images, video, description, artistPhotos }) {
+    closeLightbox();
+
+    const artistNames = (artist || '').split(',').map(n => n.trim()).filter(Boolean);
+    const photos = artistPhotos && artistPhotos.length ? artistPhotos : [''];
+    const photosHTML = photos.map((photo, i) => `
+      <div class="artwork-lightbox-artist-photo">
+        ${photo ? `<img src="${photo}" alt="${artistNames[i] || ''}">` : '<span>Artist photo placeholder</span>'}
+      </div>
+    `).join('');
+
+    const slides = images && images.length ? images : (image ? [image] : []);
+    const isCarousel = slides.length > 1;
+    const mediaHTML = slides.length
+      ? (isCarousel
+        ? `
+          <div class="artwork-lightbox-carousel">
+            <div id="artwork-lightbox-carousel-track" class="artwork-lightbox-carousel-track"></div>
+            <button type="button" id="artwork-lightbox-carousel-prev" class="artwork-lightbox-carousel-arrow artwork-lightbox-carousel-prev cursor-target" aria-label="Previous image">&larr;</button>
+            <button type="button" id="artwork-lightbox-carousel-next" class="artwork-lightbox-carousel-arrow artwork-lightbox-carousel-next cursor-target" aria-label="Next image">&rarr;</button>
+          </div>
+        `
+        : `<img src="${slides[0]}" alt="${title}">`)
+      : '<span>Image placeholder</span>';
+
+    const embedUrl = youtubeEmbedUrl(video);
+    const videoHTML = embedUrl
+      ? `
+        <div class="artwork-lightbox-video">
+          <iframe src="${embedUrl}" title="${title} — video" frameborder="0" referrerpolicy="strict-origin-when-cross-origin" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+        </div>
+      `
+      : '';
+
+    overlay = document.createElement('div');
+    overlay.className = 'artwork-lightbox';
+    overlay.innerHTML = `
+      <div class="artwork-lightbox-panel">
+        <button type="button" class="artwork-lightbox-close cursor-target" aria-label="Close">&times;</button>
+        <div class="artwork-lightbox-media">${mediaHTML}</div>
+        <div class="artwork-lightbox-sidebar">
+          <div class="artwork-lightbox-body">
+            <h3>${title}</h3>
+            ${artist ? `<p class="artwork-lightbox-artist">${artist}</p>` : ''}
+            ${description ? `<p class="artwork-lightbox-desc">${description}</p>` : ''}
+          </div>
+          ${videoHTML}
+          <div class="artwork-lightbox-artist-photos">${photosHTML}</div>
+        </div>
+      </div>
+    `;
+    overlay.addEventListener('click', e => {
+      if (e.target === overlay) closeLightbox();
+    });
+    overlay.querySelector('.artwork-lightbox-close').addEventListener('click', closeLightbox);
+
+    document.body.appendChild(overlay);
+    document.body.classList.add('lightbox-open');
+    document.addEventListener('keydown', onKeydown);
+
+    // Initialized only after the overlay is attached — initSideCarousel
+    // reads viewport.clientWidth immediately to set the starting scroll
+    // position, which is 0 (and so scrolls to the wrong slide) on a
+    // detached element.
+    if (isCarousel && typeof initSideCarousel !== 'undefined') {
+      mediaCarousel = initSideCarousel(
+        overlay.querySelector('#artwork-lightbox-carousel-track'),
+        slides.map(src => ({ src, alt: title })),
+        {
+          prevBtn: overlay.querySelector('#artwork-lightbox-carousel-prev'),
+          nextBtn: overlay.querySelector('#artwork-lightbox-carousel-next')
+        }
+      );
+    }
+  }
+
+  grids.forEach(grid => {
+    grid.addEventListener('click', e => {
+      const card = e.target.closest('.artwork-card');
+      if (!card) return;
+      const items = grid.artworkItems;
+      const item = items && items[card.dataset.artworkIndex];
+      if (!item) return;
+      openLightbox(item);
+    });
+  });
 }
 
 function formatDate(iso) {

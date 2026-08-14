@@ -50,6 +50,10 @@
   -webkit-user-drag: none;
 }
 
+.scroll-expand__media--color {
+  filter: saturate(1.35) contrast(1.04);
+}
+
 .scroll-expand__scrim {
   position: absolute;
   inset: 0;

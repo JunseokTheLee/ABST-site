@@ -322,6 +322,89 @@ h1, h2, h3 {
   font-weight: 600;
 }
 
+/* About page — large figure, two-column body, closing CTA */
+
+.about-figure-section {
+  padding: 72px 24px 0;
+}
+
+.about-figure {
+  margin: 0;
+}
+
+.about-figure-media {
+  aspect-ratio: 21 / 9;
+  min-height: 280px;
+  border: 1.5px solid var(--line-strong);
+  overflow: hidden;
+  background: var(--paper-tint);
+}
+
+.about-figure-media img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.about-figure-caption {
+  margin-top: 14px;
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  letter-spacing: 0.03em;
+  color: var(--muted);
+}
+
+.about-columns,
+.text-columns {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 48px;
+  padding: 24px 24px 72px;
+}
+
+.about-card h2,
+.text-column h2 {
+  font-size: 1.6rem;
+}
+
+.about-card p,
+.text-column p {
+  max-width: 60ch;
+  color: var(--muted);
+  font-size: 1.05rem;
+}
+
+.about-cta {
+  padding: 0 24px 120px;
+}
+
+.about-cta-inner {
+  border-top: 2px solid var(--line-strong);
+  padding-top: 40px;
+}
+
+.about-cta h2 {
+  font-size: 1.8rem;
+}
+
+.about-cta p {
+  max-width: 60ch;
+  color: var(--muted);
+  margin: 10px 0 0;
+}
+
+.about-cta-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 32px;
+  margin-top: 28px;
+}
+
+.about-cta-links .view-all {
+  margin-top: 0;
+}
+
 /* Posts */
 
 .posts {
@@ -495,6 +578,280 @@ h1, h2, h3 {
   font-style: italic;
 }
 
+/* Artwork cards are <button>s (they open a lightbox, not a link) —
+   strip the native button chrome so they match .post-card exactly. */
+button.artwork-card {
+  appearance: none;
+  -webkit-appearance: none;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+
+/* Artwork lightbox */
+
+body.lightbox-open {
+  overflow: hidden;
+}
+
+.artwork-lightbox {
+  position: fixed;
+  inset: 0;
+  z-index: 999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 40px 24px;
+  background: rgba(5, 8, 16, 0.86);
+  animation: artwork-lightbox-in 0.18s ease;
+}
+
+@keyframes artwork-lightbox-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.artwork-lightbox-panel {
+  position: relative;
+  width: min(1040px, 100%);
+  max-height: 100%;
+  overflow-y: auto;
+  background: var(--paper);
+  border: 1.5px solid var(--line-strong);
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.artwork-lightbox-close {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  z-index: 1;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1.5px solid var(--line-strong);
+  background: var(--paper);
+  color: var(--ink);
+  font-size: 1.4rem;
+  line-height: 1;
+  cursor: pointer;
+  transition: background 0.15s, color 0.15s, border-color 0.15s;
+}
+
+.artwork-lightbox-close:hover {
+  background: var(--ink);
+  color: #fff;
+  border-color: var(--ink);
+}
+
+.artwork-lightbox-media {
+  flex: 1 1 480px;
+  min-width: 0;
+  aspect-ratio: 4 / 3;
+  background: var(--paper-tint);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.artwork-lightbox-media span {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  font-weight: 600;
+  color: var(--accent-deep);
+}
+
+.artwork-lightbox-media img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+/* Pieces with more than one process/detail shot get a mini carousel in the
+   media slot instead of a single static image — reuses initSideCarousel,
+   just resized to fill the lightbox rather than the page-width homepage
+   carousel it was built for. */
+.artwork-lightbox-carousel {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+.artwork-lightbox-carousel-track {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.artwork-lightbox-carousel-track::-webkit-scrollbar { display: none; }
+
+.artwork-lightbox-carousel-track .carousel-item {
+  flex: 0 0 100%;
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  scroll-snap-align: center;
+}
+
+.artwork-lightbox-carousel-track .carousel-thumb {
+  width: 100%;
+  height: 100%;
+  aspect-ratio: auto;
+  min-height: 0;
+  border: none;
+}
+
+.artwork-lightbox-carousel-arrow {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 36px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1.5px solid var(--line-strong);
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--font-mono);
+  cursor: pointer;
+  transition: background 0.15s, color 0.15s, border-color 0.15s;
+}
+
+.artwork-lightbox-carousel-arrow:hover {
+  background: var(--ink);
+  color: #fff;
+  border-color: var(--ink);
+}
+
+.artwork-lightbox-carousel-prev { left: 12px; }
+.artwork-lightbox-carousel-next { right: 12px; }
+
+/* Sidebar: description up top, a wide artist duo photo anchored to the
+   bottom — the photo is landscape because it's the student artist and
+   their collaborating partner shown together, not a single headshot. */
+.artwork-lightbox-sidebar {
+  flex: 1 1 300px;
+  min-width: 280px;
+  max-width: 360px;
+  display: flex;
+  flex-direction: column;
+  border-left: 1.5px solid var(--line-strong);
+}
+
+.artwork-lightbox-body {
+  padding: 24px 24px 20px;
+}
+
+.artwork-lightbox-body h3 {
+  font-size: 1.3rem;
+  margin: 0;
+}
+
+.artwork-lightbox-artist {
+  margin: 8px 0 0;
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  font-weight: 600;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+  color: var(--accent-deep);
+}
+
+.artwork-lightbox-desc {
+  margin: 14px 0 0;
+  color: var(--muted);
+  font-size: 0.92rem;
+}
+
+.artwork-lightbox-video {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  background: var(--dark);
+  border-top: 1.5px solid var(--line-strong);
+}
+
+.artwork-lightbox-video iframe {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  border: 0;
+}
+
+/* One tile per credited artist, side by side — a solo piece gets one wide
+   portrait, a two-artist collaboration gets two narrower ones next to
+   each other rather than a single combined photo. */
+.artwork-lightbox-artist-photos {
+  margin-top: auto;
+  display: flex;
+  border-top: 1.5px solid var(--line-strong);
+}
+
+.artwork-lightbox-artist-photo {
+  flex: 1 1 0;
+  min-width: 0;
+  aspect-ratio: 4 / 5;
+  background: var(--paper-tint);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.artwork-lightbox-artist-photo + .artwork-lightbox-artist-photo {
+  border-left: 1.5px solid var(--line-strong);
+}
+
+.artwork-lightbox-artist-photo span {
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  font-weight: 600;
+  color: var(--accent-deep);
+  text-align: center;
+  padding: 0 12px;
+}
+
+.artwork-lightbox-artist-photo img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  filter: grayscale(100%);
+}
+
+@media (max-width: 780px) {
+  .artwork-lightbox-panel { flex-direction: column; }
+  .artwork-lightbox-media { flex: 0 0 auto; width: 100%; }
+  .artwork-lightbox-sidebar {
+    flex: 0 0 auto;
+    width: 100%;
+    max-width: none;
+    border-left: none;
+    border-top: 1.5px solid var(--line-strong);
+  }
+}
+
+@media (max-width: 640px) {
+  .artwork-lightbox { padding: 0; }
+  .artwork-lightbox-panel { max-height: 100%; border: none; }
+}
+
 /* Footer */
 
 .site-footer {
@@ -534,6 +891,10 @@ h1, h2, h3 {
   padding: 140px 24px 100px;
   max-width: 720px;
   margin: 0 auto;
+}
+
+.post-page.has-gallery {
+  padding-bottom: 24px;
 }
 
 .scroll-expand-hero + .post-page {
@@ -599,4 +960,7 @@ h1, h2, h3 {
   .bracket-frame::after { width: 18px; height: 18px; top: 14px; left: 14px; }
   .bracket-frame::after { top: auto; left: auto; bottom: 14px; right: 14px; }
   .post-page .post-hero { height: 320px; }
+  .about-figure-media { aspect-ratio: 4 / 3; min-height: 220px; }
+  .about-columns,
+  .text-columns { gap: 32px; }
 }

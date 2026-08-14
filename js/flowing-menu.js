@@ -19,6 +19,13 @@
     const li = document.createElement('div');
     li.className = 'fm-item';
 
+    if (item.image) {
+      const bg = document.createElement('div');
+      bg.className = 'fm-item-bg';
+      bg.style.backgroundImage = `url("${item.image}")`;
+      li.appendChild(bg);
+    }
+
     const link = document.createElement('a');
     link.className = 'fm-item-link cursor-target';
     link.href = item.link || '#';
@@ -56,7 +63,17 @@
         const placeholder = document.createElement('span');
         placeholder.className = 'fm-marquee-placeholder';
         placeholder.setAttribute('aria-hidden', 'true');
-        placeholder.textContent = 'IMG';
+        const placeholderImage = item.hoverImage || item.image;
+        if (placeholderImage) {
+          const img = document.createElement('img');
+          img.className = 'fm-marquee-placeholder-img';
+          img.src = placeholderImage;
+          img.alt = '';
+          img.draggable = false;
+          placeholder.appendChild(img);
+        } else {
+          placeholder.textContent = 'IMG';
+        }
         part.appendChild(placeholder);
 
         inner.appendChild(part);

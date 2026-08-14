@@ -7,6 +7,7 @@
 <title>Flatland Dream — NLCS Jeju — ABST</title>
 <link rel="stylesheet" href="../css/style.css">
 <link rel="stylesheet" href="../css/scroll-expand.css">
+<link rel="stylesheet" href="../css/carousel.css">
 <link rel="stylesheet" href="../css/staggered-menu.css">
 <link rel="stylesheet" href="../css/target-cursor.css">
 <link rel="stylesheet" href="../css/page-transitions.css">
@@ -20,15 +21,16 @@
   </div>
 </header>
 
-<main class="ptx-content">
+<main class="ptx-content" data-project-gallery="flatlandnlcs">
 
 <section id="project-hero-scroll-expand" class="scroll-expand-hero"
   data-title="Flatland Dream — NLCS Jeju"
   data-eyebrow="Partner School"
   data-cta="Scroll to read more ↓"
+  data-image="../images/hero-flatlandnlcs.jpg"
 ></section>
 
-<article class="post-page" id="project-content">
+<article class="post-page has-gallery" id="project-content">
   <a class="back-link cursor-target" href="../projects.html">&larr; Back to projects</a>
   <p class="post-meta">Partner School</p>
   <h1>Flatland Dream — NLCS Jeju</h1>
@@ -37,10 +39,39 @@
   <p>Their work was shown alongside pieces by seven autistic youth art creators, with select works displayed side by side as collaborative pairs — the core of ABST's approach to co-creation rather than simple representation.</p>
 </article>
 
+<section class="carousel-section" id="project-carousel">
+  <div class="carousel-shell">
+    <button id="project-carousel-prev" class="carousel-arrow cursor-target" type="button" aria-label="Scroll left">&larr;</button>
+    <div id="project-carousel-track" class="carousel-viewport"></div>
+    <button id="project-carousel-next" class="carousel-arrow cursor-target" type="button" aria-label="Scroll right">&rarr;</button>
+  </div>
+</section>
+
+<section class="text-columns container">
+  <div class="text-column">
+    <h2>Why NLCS Jeju</h2>
+    <p>NLCS Jeju was ABST's founding partner school, and its students helped shape The Flatland Dream from planning through execution. Lee Jun-seok led the exhibition's planning and created its media art.</p>
+  </div>
+  <div class="text-column">
+    <h2>The Result</h2>
+    <p>Ten NLCS Jeju students exhibited alongside seven local autistic and disabled youth art creators, with select pieces paired and displayed together — a working model for the co-creation approach ABST has carried into every exhibition since.</p>
+  </div>
+</section>
+
+<section class="posts container" id="artworks">
+  <div class="posts-heading">
+    <h2>Artworks</h2>
+    <p>One piece from each NLCS Jeju student artist — images are being added as they're catalogued.</p>
+  </div>
+  <div id="project-artworks-grid" class="posts-grid"></div>
+</section>
+
 </main>
 
 <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
 <script src="../js/scroll-expand.js"></script>
+<script src="../js/carousel.js"></script>
+<script src="../js/project-galleries.js"></script>
 <script src="../js/staggered-menu.js"></script>
 <script src="../js/target-cursor.js"></script>
 <script src="../js/page-transitions.js"></script>

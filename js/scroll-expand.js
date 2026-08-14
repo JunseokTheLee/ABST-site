@@ -23,6 +23,7 @@
       {
         mediaType: 'image',
         src: '',
+        srcColor: '',
         poster: '',
         alt: '',
         title: '',
@@ -81,6 +82,17 @@
       media.draggable = false;
     }
     frame.appendChild(media);
+
+    let colorMedia = null;
+    if (!opts.usePlaceholderMedia && opts.mediaType !== 'video' && opts.srcColor) {
+      colorMedia = document.createElement('img');
+      colorMedia.className = 'scroll-expand__media scroll-expand__media--color';
+      colorMedia.src = opts.srcColor;
+      colorMedia.alt = '';
+      colorMedia.draggable = false;
+      colorMedia.style.opacity = '0';
+      frame.appendChild(colorMedia);
+    }
 
     const scrim = document.createElement('div');
     scrim.className = 'scroll-expand__scrim';
@@ -148,6 +160,11 @@
       frame.style.clipPath = `inset(${iy}% ${ix}% ${iy}% ${ix}% round ${r}px)`;
 
       media.style.transform = `scale(${opts.mediaZoom + (1 - opts.mediaZoom) * e})`;
+
+      if (colorMedia) {
+        colorMedia.style.transform = media.style.transform;
+        colorMedia.style.opacity = `${e}`;
+      }
 
       scrim.style.opacity = `${opts.overlayScrim * e}`;
 

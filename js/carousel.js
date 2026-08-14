@@ -36,19 +36,54 @@
     const opts = options || {};
     const autoplayDelay = opts.autoplayDelay || 5000;
     const slideCount = items.length;
+    // With >1 slide, pad a clone of the last item before the first and a
+    // clone of the first item after the last, so wrapping past either end
+    // scrolls one slide into a look-alike clone instead of animating back
+    // across the whole track — then snaps instantly to the real slide.
+    const loop = slideCount > 1;
 
-    items.forEach((item) => viewport.appendChild(buildItem(item)));
+    const renderItems = loop ? [items[slideCount - 1]].concat(items, [items[0]]) : items;
+    renderItems.forEach((item) => viewport.appendChild(buildItem(item)));
 
-    let index = 0;
+    let index = loop ? 1 : 0;
     let autoplayTimer = null;
+    let settleTimer = null;
 
-    function goTo(i) {
-      index = (i + slideCount) % slideCount;
-      viewport.scrollTo({ left: index * viewport.clientWidth, behavior: 'smooth' });
+    function scrollToIndex(i, smooth) {
+      viewport.scrollTo({ left: i * viewport.clientWidth, behavior: smooth ? 'smooth' : 'auto' });
     }
 
-    function next() { goTo(index + 1); }
-    function prev() { goTo(index - 1); }
+    scrollToIndex(index, false);
+
+    // If index is currently sitting on a clone (because a prior transition's
+    // async settle hasn't run yet — e.g. clicks fired faster than the
+    // scroll-end debounce), resolve it to the real slide right now, instantly,
+    // before anything else moves. Without this, index and the physical scroll
+    // position can drift apart after a couple of quick clicks, the browser
+    // clamps scrollLeft at the track's edge, and the carousel appears stuck.
+    function collapse() {
+      if (!loop) return;
+      if (index === 0) {
+        index = slideCount;
+        scrollToIndex(index, false);
+      } else if (index === slideCount + 1) {
+        index = 1;
+        scrollToIndex(index, false);
+      }
+    }
+
+    function settleLoop() {
+      collapse();
+    }
+
+    function goTo(delta) {
+      collapse();
+      index = loop ? index + delta : (index + delta + slideCount) % slideCount;
+      scrollToIndex(index, true);
+    }
+
+    function next() { goTo(1); }
+    function prev() { goTo(-1); }
 
     function stopAutoplay() {
       if (autoplayTimer) {
@@ -77,9 +112,14 @@
       });
     }
 
+    viewport.addEventListener('scroll', () => {
+      clearTimeout(settleTimer);
+      settleTimer = setTimeout(settleLoop, 120);
+    });
+
     viewport.addEventListener('mouseenter', stopAutoplay);
     viewport.addEventListener('mouseleave', startAutoplay);
-    window.addEventListener('resize', () => goTo(index));
+    window.addEventListener('resize', () => scrollToIndex(index, false));
 
     startAutoplay();
   };

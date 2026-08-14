@@ -4,13 +4,14 @@
    match .post-card. */
 
 .carousel-section {
-  padding: 64px 40px 48px;
+  padding: 64px 0 48px;
 }
 
 .carousel-shell {
   position: relative;
-  max-width: 1400px;
+  max-width: var(--max-width);
   margin: 0 auto;
+  padding: 0 24px;
   display: flex;
   align-items: center;
   gap: 20px;
@@ -21,7 +22,6 @@
   display: flex;
   overflow-x: auto;
   scroll-snap-type: x mandatory;
-  scroll-behavior: smooth;
   padding: 4px 0 20px;
   -ms-overflow-style: none;
   scrollbar-width: none;
@@ -71,8 +71,8 @@
 
 .carousel-thumb {
   position: relative;
-  aspect-ratio: 16 / 9;
-  min-height: 420px;
+  aspect-ratio: 3 / 2;
+  min-height: 440px;
   background: var(--paper-tint);
   overflow: hidden;
 }
@@ -118,6 +118,6 @@
 
 @media (max-width: 640px) {
   .carousel-section { padding: 40px 20px 24px; }
-  .carousel-thumb { min-height: 220px; }
+  .carousel-thumb { min-height: 260px; }
   .carousel-arrow { display: none; }
 }
