@@ -35,9 +35,9 @@ const ABST_PROJECTS = [
 
   {
     title: 'Cradle',
-    meta: 'Coming Soon',
-    tag: 'Coming Soon',
-    excerpt: 'Details for this project are still being written. Check back soon.',
+    meta: 'Exhibition Theme · 2026',
+    tag: 'Exhibition Theme',
+    excerpt: 'ABST\'s third annual exhibition paired 12 disabled artists with 24 student artists from four schools, exploring the fragile beliefs and stereotypes we build to feel safe.',
     url: 'projects/cradle.html',
     image: 'images/proj4.png',
     hoverImage: 'images/hover1.jpg'
