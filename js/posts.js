@@ -86,10 +86,5 @@ const ABST_POSTS = [
     url: 'blog/sieun-park.html',
     thumb: 'blog/blog_images/sieun/sieun.avif'
   },
-  {
-    title: 'Welcome to the New ABST Site',
-    date: '2026-08-12',
-    tag: 'Announcement',
-    url: 'blog/sample-blog.html'
-  }
+  
 ];
