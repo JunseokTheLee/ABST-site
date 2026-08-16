@@ -1,0 +1,9 @@
+{
+  "name": "abst-site",
+  "private": true,
+  "type": "module",
+  "devDependencies": {
+    "cheerio": "^1.2.0",
+    "sharp": "^0.35.3"
+  }
+}

@@ -55,8 +55,8 @@ const ABST_POSTS = [
     title: 'Spotlight Special: Sejeong Kim',
     date: '2025-12-29',
     tag: 'Interview',
-    url: 'blog/sejong-kim.html',
-    thumb: 'blog/blog_images/sejong/shared-spotlight-special-sejeong-ki-013.png'
+    url: 'blog/sejeong-kim.html',
+    thumb: 'blog/blog_images/sejeong/shared-spotlight-special-sejeong-ki-013.png'
   },
   {
     title: 'Spotlight: Yeolim Yang',
