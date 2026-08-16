@@ -52,7 +52,7 @@ const ABST_POSTS = [
     thumb: 'blog/blog_images/nayun/blog-nayunkimsp-spotlight-nayun-kim-001.png'
   },
   {
-    title: 'Spotlight Special: Sejong Kim',
+    title: 'Spotlight Special: Sejeong Kim',
     date: '2025-12-29',
     tag: 'Interview',
     url: 'blog/sejong-kim.html',
