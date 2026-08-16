@@ -17,12 +17,24 @@ document.addEventListener('DOMContentLoaded', () => {
   initSiteCursor();
 });
 
+function isKoPage() {
+  return document.documentElement.lang === 'ko';
+}
+
 function initProjectsMenu(projects) {
   const mount = document.getElementById('projects-menu');
   if (!mount || typeof initFlowingMenu === 'undefined') return;
 
+  const ko = isKoPage();
+
   initFlowingMenu(mount, {
-    items: projects.map(p => ({ link: p.url, text: p.title, tag: p.tag, image: p.image, hoverImage: p.hoverImage })),
+    items: projects.map(p => ({
+      link: ko ? p.url.replace('.html', '-ko.html') : p.url,
+      text: ko ? (p.titleKo || p.title) : p.title,
+      tag: ko ? (p.tagKo || p.tag) : p.tag,
+      image: p.image,
+      hoverImage: p.hoverImage
+    })),
     speed: 18,
     bgColor: '#050810',
     textColor: '#ffffff',
@@ -59,15 +71,24 @@ function initSiteMenu() {
   if (!mount || typeof initStaggeredMenu === 'undefined') return;
 
   const base = mount.dataset.base || '';
+  const ko = isKoPage();
+
+  const items = ko ? [
+    { label: '홈', ariaLabel: '홈으로 이동', link: base + 'index-ko.html' },
+    { label: '소개', ariaLabel: 'ABST 소개 보기', link: base + 'about-ko.html' },
+    { label: '저널', ariaLabel: 'ABST 저널 읽기', link: base + 'blog-ko.html' },
+    { label: '프로젝트', ariaLabel: 'ABST 프로젝트 보기', link: base + 'projects-ko.html' }
+  ] : [
+    { label: 'Home', ariaLabel: 'Go to home page', link: base + 'index.html' },
+    { label: 'About', ariaLabel: 'Learn about ABST', link: base + 'about.html' },
+    { label: 'Journal', ariaLabel: 'Read the ABST journal', link: base + 'blog.html' },
+    { label: 'Projects', ariaLabel: 'View ABST projects', link: base + 'projects.html' }
+  ];
 
   initStaggeredMenu(mount, {
     position: 'right',
-    items: [
-      { label: 'Home', ariaLabel: 'Go to home page', link: base + 'index.html' },
-      { label: 'About', ariaLabel: 'Learn about ABST', link: base + 'about.html' },
-      { label: 'Journal', ariaLabel: 'Read the ABST journal', link: base + 'blog.html' },
-      { label: 'Projects', ariaLabel: 'View ABST projects', link: base + 'projects.html' }
-    ],
+    items,
+    socialsTitle: ko ? 'SNS' : 'Socials',
     socialItems: [
       { label: 'Instagram', link: 'https://www.instagram.com/abst_exhibition/' },
       { label: 'abst.space', link: 'https://abst.space/' }
@@ -87,25 +108,34 @@ function initHomeHero() {
   const root = document.getElementById('hero-scroll-expand');
   if (!root || typeof initScrollExpand === 'undefined') return;
 
+  const ko = isKoPage();
+  const title = ko ? 'ABST' : 'ABST EXHIBITIONS';
+  const eyebrow = ko ? '문턱 너머의 예술' : 'Art Beyond Some Thresholds';
+  const sub = ko
+    ? '제주도를 기반으로 한 ABST는 고등학생 미술 작가와 지역의 자폐성·발달장애 청소년 작가들이 만나, \'포함\'을 넘어 진정한 협업에 뿌리내린 전시를 만들어갑니다.'
+    : 'Based in Jeju Island, ABST brings together high school art students and local autistic/disabled youth artists to build exhibitions rooted in collaboration, not just inclusion.';
+  const cta = ko ? '저널 보러 스크롤하기 ↓' : 'Scroll to see our journal ↓';
+  const alt = ko ? 'ABST 전시에서 작품을 관람하는 방문객들' : 'Visitors viewing artwork at an ABST exhibition';
+
   initScrollExpand(root, {
     usePlaceholderMedia: false,
     mediaType: 'image',
     src: 'images/main.jpg',
     srcColor: 'images/main-color.jpg',
-    alt: 'Visitors viewing artwork at an ABST exhibition',
+    alt,
     outerTiles: 0,
     outerTileImages: [
-      
+
     ],
     useWindowScroll: true,
-    title: 'ABST EXHIBITIONS',
+    title,
     titleTag: 'h1',
     scrollDistance: 1.2,
     holdDistance: 0.35,
     childrenHTML: `
-      <p class="eyebrow">Art Beyond Some Thresholds</p>
-      <p class="hero-sub">Based in Jeju Island, ABST brings together high school art students and local autistic/disabled youth artists to build exhibitions rooted in collaboration, not just inclusion.</p>
-      <a class="scroll-cue cursor-target" href="#posts">Scroll to see our journal ↓</a>
+      <p class="eyebrow">${eyebrow}</p>
+      <p class="hero-sub">${sub}</p>
+      <a class="scroll-cue cursor-target" href="#posts">${cta}</a>
     `
   });
 }
@@ -166,7 +196,7 @@ function renderGrid(gridId, items, renderFn) {
   if (!grid) return;
 
   if (!items || !items.length) {
-    grid.innerHTML = '<p class="posts-empty">Nothing here yet — check back soon.</p>';
+    grid.innerHTML = `<p class="posts-empty">${isKoPage() ? '아직 게시물이 없습니다 — 곧 다시 확인해 주세요.' : 'Nothing here yet — check back soon.'}</p>`;
     return;
   }
 
@@ -174,32 +204,34 @@ function renderGrid(gridId, items, renderFn) {
 }
 
 function renderCard(item) {
+  const ko = isKoPage();
   const metaLine = item.date
     ? `<time datetime="${item.date}">${formatDate(item.date)}</time>`
     : (item.meta ? `<span class="post-body-meta">${item.meta}</span>` : '');
 
   return `
     <a class="post-card" href="${item.url}">
-      <div class="post-thumb" aria-hidden="true">${item.thumb ? `<img src="${item.thumb}" alt="" loading="lazy">` : '<span>Image placeholder</span>'}</div>
+      <div class="post-thumb" aria-hidden="true">${item.thumb ? `<img src="${item.thumb}" alt="" loading="lazy">` : `<span>${ko ? '이미지 준비 중' : 'Image placeholder'}</span>`}</div>
       <div class="post-body">
         <span class="post-tag">${item.tag}</span>
         <h3>${item.title}</h3>
         ${metaLine}
-        <span class="read-more">Read more &rarr;</span>
+        <span class="read-more">${ko ? '더 보기 &rarr;' : 'Read more &rarr;'}</span>
       </div>
     </a>
   `;
 }
 
 function renderArtworkCard(item, index) {
+  const ko = isKoPage();
   return `
     <button type="button" class="post-card artwork-card cursor-target" data-artwork-index="${index}">
-      <div class="post-thumb" aria-hidden="true">${item.thumb ? `<img src="${item.thumb}" alt="" loading="lazy">` : '<span>Image placeholder</span>'}</div>
+      <div class="post-thumb" aria-hidden="true">${item.thumb ? `<img src="${item.thumb}" alt="" loading="lazy">` : `<span>${ko ? '이미지 준비 중' : 'Image placeholder'}</span>`}</div>
       <div class="post-body">
-        <span class="post-tag">Artwork</span>
+        <span class="post-tag">${ko ? '작품' : 'Artwork'}</span>
         <h3>${item.title}</h3>
         ${item.artist ? `<span class="post-body-meta">${item.artist}</span>` : ''}
-        <span class="read-more">View artwork &rarr;</span>
+        <span class="read-more">${ko ? '작품 보기 &rarr;' : 'View artwork &rarr;'}</span>
       </div>
     </button>
   `;
@@ -240,6 +272,7 @@ function initArtworkLightbox() {
   function openLightbox({ title, artist, image, images, video, description, artistPhotos }) {
     closeLightbox();
 
+    const ko = isKoPage();
     const artistNames = (artist || '').split(',').map(n => n.trim()).filter(Boolean);
     const photos = artistPhotos && artistPhotos.length ? artistPhotos : [''];
     const photosHTML = photos.map((photo, i) => `
@@ -255,8 +288,8 @@ function initArtworkLightbox() {
         ? `
           <div class="artwork-lightbox-carousel">
             <div id="artwork-lightbox-carousel-track" class="artwork-lightbox-carousel-track"></div>
-            <button type="button" id="artwork-lightbox-carousel-prev" class="artwork-lightbox-carousel-arrow artwork-lightbox-carousel-prev cursor-target" aria-label="Previous image">&larr;</button>
-            <button type="button" id="artwork-lightbox-carousel-next" class="artwork-lightbox-carousel-arrow artwork-lightbox-carousel-next cursor-target" aria-label="Next image">&rarr;</button>
+            <button type="button" id="artwork-lightbox-carousel-prev" class="artwork-lightbox-carousel-arrow artwork-lightbox-carousel-prev cursor-target" aria-label="${ko ? '이전 이미지' : 'Previous image'}">&larr;</button>
+            <button type="button" id="artwork-lightbox-carousel-next" class="artwork-lightbox-carousel-arrow artwork-lightbox-carousel-next cursor-target" aria-label="${ko ? '다음 이미지' : 'Next image'}">&rarr;</button>
           </div>
         `
         : `<img src="${slides[0]}" alt="${title}">`)
@@ -275,7 +308,7 @@ function initArtworkLightbox() {
     overlay.className = 'artwork-lightbox';
     overlay.innerHTML = `
       <div class="artwork-lightbox-panel">
-        <button type="button" class="artwork-lightbox-close cursor-target" aria-label="Close">&times;</button>
+        <button type="button" class="artwork-lightbox-close cursor-target" aria-label="${ko ? '닫기' : 'Close'}">&times;</button>
         <div class="artwork-lightbox-media">${mediaHTML}</div>
         <div class="artwork-lightbox-sidebar">
           <div class="artwork-lightbox-body">
@@ -327,5 +360,7 @@ function initArtworkLightbox() {
 
 function formatDate(iso) {
   const d = new Date(iso);
-  return d.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
+  return isKoPage()
+    ? d.toLocaleDateString('ko-KR', { year: 'numeric', month: 'long', day: 'numeric' })
+    : d.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
 }

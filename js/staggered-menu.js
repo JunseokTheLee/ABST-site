@@ -13,6 +13,7 @@
         items: [],
         socialItems: [],
         displaySocials: true,
+        socialsTitle: 'Socials',
         displayItemNumbering: true,
         menuButtonColor: '#fff',
         openMenuButtonColor: '#fff',
@@ -137,7 +138,7 @@
       socials.setAttribute('aria-label', 'Social links');
       socialTitle = document.createElement('h3');
       socialTitle.className = 'sm-socials-title';
-      socialTitle.textContent = 'Socials';
+      socialTitle.textContent = opts.socialsTitle;
       const socialList = document.createElement('ul');
       socialList.className = 'sm-socials-list';
       socialList.setAttribute('role', 'list');

@@ -123,6 +123,31 @@ h1, h2, h3 {
   border-bottom: 1px solid var(--dark-line);
 }
 
+.header-actions {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+}
+
+.lang-switch {
+  font-family: var(--font-mono);
+  font-size: 0.76rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #fff;
+  text-decoration: none;
+  border-bottom: 1.5px solid transparent;
+  padding-bottom: 2px;
+  line-height: 1;
+  transition: color 0.2s, border-color 0.2s;
+}
+
+.lang-switch:hover {
+  color: var(--accent-cyan);
+  border-color: var(--accent-cyan);
+}
+
 /* Hero */
 
 .hero {
