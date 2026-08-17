@@ -430,6 +430,173 @@ h1, h2, h3 {
   margin-top: 0;
 }
 
+/* Impact page — donation records grouped by year */
+
+.impact-year {
+  padding: 56px 24px;
+  border-top: 2px solid var(--line-strong);
+}
+
+.impact-year:first-of-type {
+  border-top: none;
+  padding-top: 24px;
+}
+
+.impact-year-heading {
+  display: flex;
+  align-items: baseline;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.impact-year-heading h2 {
+  font-size: 1.8rem;
+}
+
+.impact-year-meta {
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.impact-year p {
+  max-width: 70ch;
+  color: var(--muted);
+  font-size: 1.05rem;
+  margin-top: 14px;
+}
+
+.impact-stats {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: 24px;
+  margin-top: 28px;
+  padding-top: 24px;
+  max-width: 640px;
+  border-top: 1.5px solid var(--line);
+}
+
+.impact-stats div {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  border-left: 2px solid var(--line);
+  padding-left: 16px;
+}
+
+.impact-stats div:first-child { border-left: 2px solid transparent; padding-left: 0; }
+
+.impact-stats strong {
+  font-family: var(--font-display);
+  font-size: 2rem;
+  font-weight: 700;
+  color: var(--accent);
+}
+
+.impact-stats span {
+  font-size: 0.72rem;
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  font-weight: 600;
+}
+
+/* Live supporter-message display embedded as a small preview window;
+   clicking it opens the same page fullscreen rather than trying to
+   shrink its viewport-relative canvas layout down to fit inline. */
+
+.impact-display-window {
+  position: relative;
+  margin-top: 32px;
+  width: 100%;
+  max-width: 720px;
+  aspect-ratio: 16 / 9;
+  border: 1.5px solid var(--line-strong);
+  overflow: hidden;
+  background: #0c0c0c;
+  cursor: pointer;
+  padding: 0;
+}
+
+.impact-display-window iframe {
+  width: 100%;
+  height: 100%;
+  border: 0;
+  pointer-events: none;
+}
+
+.impact-display-window-label {
+  position: absolute;
+  inset: auto 0 0 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 10px 14px;
+  background: rgba(5, 8, 16, 0.72);
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: #fff;
+}
+
+.impact-display-window-expand {
+  flex-shrink: 0;
+  border: 1px solid rgba(255, 255, 255, 0.4);
+  padding: 4px 10px;
+}
+
+.impact-display-window:hover .impact-display-window-expand {
+  background: #fff;
+  color: #0c0c0c;
+}
+
+body.display-lightbox-open {
+  overflow: hidden;
+}
+
+.impact-display-lightbox {
+  position: fixed;
+  inset: 0;
+  z-index: 999;
+  background: #0c0c0c;
+  animation: artwork-lightbox-in 0.18s ease;
+}
+
+.impact-display-lightbox iframe {
+  width: 100%;
+  height: 100%;
+  border: 0;
+}
+
+.impact-display-lightbox-close {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  z-index: 1;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1.5px solid rgba(255, 255, 255, 0.4);
+  background: rgba(5, 8, 16, 0.7);
+  color: #fff;
+  font-size: 1.4rem;
+  line-height: 1;
+  cursor: pointer;
+  transition: background 0.15s, color 0.15s, border-color 0.15s;
+}
+
+.impact-display-lightbox-close:hover {
+  background: #fff;
+  color: #0c0c0c;
+  border-color: #fff;
+}
+
 /* Posts */
 
 .posts {
@@ -950,6 +1117,12 @@ body.lightbox-open {
 
 .post-page h1 {
   font-size: clamp(1.8rem, 4vw, 2.6rem);
+}
+
+.post-page .post-byline {
+  color: var(--muted);
+  font-size: 0.95rem;
+  margin-top: 6px;
 }
 
 .post-page .post-hero {

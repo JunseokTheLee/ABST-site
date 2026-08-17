@@ -13,6 +13,7 @@ document.addEventListener('DOMContentLoaded', () => {
   initProjectHero();
   initProjectGallery();
   initArtworkLightbox();
+  initImpactDisplay();
   initSiteMenu();
   initSiteCursor();
 });
@@ -77,12 +78,14 @@ function initSiteMenu() {
     { label: '홈', ariaLabel: '홈으로 이동', link: base + 'index-ko.html' },
     { label: '소개', ariaLabel: 'ABST 소개 보기', link: base + 'about-ko.html' },
     { label: '저널', ariaLabel: 'ABST 저널 읽기', link: base + 'blog-ko.html' },
-    { label: '프로젝트', ariaLabel: 'ABST 프로젝트 보기', link: base + 'projects-ko.html' }
+    { label: '프로젝트', ariaLabel: 'ABST 프로젝트 보기', link: base + 'projects-ko.html' },
+    { label: '임팩트', ariaLabel: 'ABST 후원 기록 보기', link: base + 'impact-ko.html' }
   ] : [
     { label: 'Home', ariaLabel: 'Go to home page', link: base + 'index.html' },
     { label: 'About', ariaLabel: 'Learn about ABST', link: base + 'about.html' },
     { label: 'Journal', ariaLabel: 'Read the ABST journal', link: base + 'blog.html' },
-    { label: 'Projects', ariaLabel: 'View ABST projects', link: base + 'projects.html' }
+    { label: 'Projects', ariaLabel: 'View ABST projects', link: base + 'projects.html' },
+    { label: 'Impact', ariaLabel: 'View ABST donation records', link: base + 'impact.html' }
   ];
 
   initStaggeredMenu(mount, {
@@ -355,6 +358,46 @@ function initArtworkLightbox() {
       if (!item) return;
       openLightbox(item);
     });
+  });
+}
+
+function initImpactDisplay() {
+  const windows = document.querySelectorAll('.impact-display-window');
+  if (!windows.length) return;
+
+  let overlay = null;
+
+  function closeOverlay() {
+    if (!overlay) return;
+    overlay.remove();
+    overlay = null;
+    document.body.classList.remove('display-lightbox-open');
+    document.removeEventListener('keydown', onKeydown);
+  }
+
+  function onKeydown(e) {
+    if (e.key === 'Escape') closeOverlay();
+  }
+
+  function openOverlay(src) {
+    closeOverlay();
+
+    const ko = isKoPage();
+    overlay = document.createElement('div');
+    overlay.className = 'impact-display-lightbox';
+    overlay.innerHTML = `
+      <button type="button" class="impact-display-lightbox-close cursor-target" aria-label="${ko ? '닫기' : 'Close'}">&times;</button>
+      <iframe src="${src}" title="ABST supporter messages display"></iframe>
+    `;
+    overlay.querySelector('.impact-display-lightbox-close').addEventListener('click', closeOverlay);
+
+    document.body.appendChild(overlay);
+    document.body.classList.add('display-lightbox-open');
+    document.addEventListener('keydown', onKeydown);
+  }
+
+  windows.forEach(win => {
+    win.addEventListener('click', () => openOverlay(win.dataset.displaySrc));
   });
 }
 

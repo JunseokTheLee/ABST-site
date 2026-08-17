@@ -56,7 +56,7 @@ const ABST_POSTS = [
     date: '2025-12-29',
     tag: 'Interview',
     url: 'blog/sejeong-kim.html',
-    thumb: 'blog/blog_images/sejeong/shared-spotlight-special-sejeong-ki-013.png'
+    thumb: 'blog/blog_images/sejong/shared-spotlight-special-sejeong-ki-013.png'
   },
   {
     title: 'Spotlight: Yeolim Yang',

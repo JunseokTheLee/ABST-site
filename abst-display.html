@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ABST — Supporter Messages</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    html, body {
+      width: 100%;
+      height: 100%;
+      background: #0c0c0c;
+      overflow: hidden;
+      font-family: 'Courier New', Courier, monospace;
+    }
+
+    #stage {
+      width: 100vw;
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+
+    #textwall {
+      flex: 1;
+      overflow: hidden;
+      position: relative;
+      padding: 28px 36px;
+      -webkit-mask-image: linear-gradient(to bottom, transparent 0%, black 6%, black 94%, transparent 100%);
+      mask-image: linear-gradient(to bottom, transparent 0%, black 6%, black 94%, transparent 100%);
+    }
+
+    #textscroll {
+      font-family: 'Courier New', Courier, monospace;
+      font-size: 13px;
+      line-height: 1.65;
+      color: #6a6660;
+      letter-spacing: 0.03em;
+      word-break: break-all;
+      will-change: transform;
+      transition: opacity 0.5s ease;
+    }
+
+    .w-name {
+      color: #d4cfbf;
+      font-weight: 700;
+      letter-spacing: 0.07em;
+    }
+
+    .w-sep {
+      color: #222018;
+      margin: 0 3px;
+    }
+
+    .w-msg {
+      animation: msg-pulse var(--pulse-dur, 8s) ease-in-out var(--pulse-delay, 0s) infinite;
+    }
+
+    @keyframes msg-pulse {
+      0%, 100% { color: #1e1c1a; }
+      50%       { color: #f2ede0; }
+    }
+
+    #abst-bg {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      font-family: Impact, 'Arial Black', sans-serif;
+      font-size: clamp(80px, 23vw, 400px);
+      font-weight: 900;
+      color: #ffffff;
+      letter-spacing: 0.03em;
+      white-space: nowrap;
+      pointer-events: none;
+      user-select: none;
+      line-height: 1;
+      
+      z-index: 10;
+    }
+
+    #foot {
+      padding: 10px 20px;
+      font-family: 'Courier New', Courier, monospace;
+      font-size: 11px;
+      color: #282622;
+      letter-spacing: 0.25em;
+      flex-shrink: 0;
+      border-top: 1px solid #111;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    #status-dot {
+      display: inline-block;
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: #2a2a2a;
+      margin-right: 8px;
+      vertical-align: middle;
+      transition: background 0.4s;
+    }
+
+    #status-dot.live { background: #2d5a3d; }
+
+    #fs-btn {
+      cursor: pointer;
+      opacity: 0.18;
+      transition: opacity 0.2s;
+      background: none;
+      border: none;
+      padding: 0;
+      width: 20px;
+      height: 20px;
+    }
+
+    #fs-btn:hover { opacity: 0.6; }
+    #fs-btn svg { width: 100%; height: 100%; }
+  </style>
+</head>
+<body>
+
+<div id="stage">
+  <div id="textwall">
+    <div id="textscroll"></div>
+    <div id="abst-bg">ABST</div>
+  </div>
+  <div id="foot">
+    <span>
+      <span id="status-dot"></span>
+      ABST &nbsp;·&nbsp; SUPPORTER MESSAGES &nbsp;·&nbsp; <span id="count">—</span> VOICES
+    </span>
+    <button id="fs-btn" title="Toggle fullscreen">
+      <svg viewBox="0 0 24 24" fill="none" stroke="#f0ece4" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <polyline points="15 3 21 3 21 9"/>
+        <polyline points="9 21 3 21 3 15"/>
+        <line x1="21" y1="3" x2="14" y2="10"/>
+        <line x1="3" y1="21" x2="10" y2="14"/>
+      </svg>
+    </button>
+  </div>
+</div>
+
+<script>
+  const SHEET_ID   = "1sFVe4qq2xJ6rNudd-TE0j1jAUYuPsfXw5sY7iVuj5jc";
+  const SHEET_TAB  = "main";
+  const REFRESH_MS = 15000;
+  const SHEET_URL  = `https://opensheet.vercel.app/${SHEET_ID}/${SHEET_TAB}`;
+
+  const DEMO = [
+    { Name: "ALEXANDRA M.", Message: "Proud to stand with ABST. Keep pushing boundaries." },
+    { Name: "THEO K.", Message: "This movement changes everything. Thank you." },
+    { Name: "PRIYA S.", Message: "From day one, all the way." },
+    { Name: "JAMES O.", Message: "Your work speaks for itself. Honored to support." },
+    { Name: "LUNA R.", Message: "Art as resistance. Always." },
+    { Name: "DANIEL F.", Message: "Grateful for every performance." },
+    { Name: "YUKI T.", Message: "Crossing oceans to be here." },
+    { Name: "CHLOE B.", Message: "Nothing compares to what ABST creates." },
+    { Name: "MARCUS W.", Message: "A voice that needs to be heard." },
+    { Name: "SELIN A.", Message: "The future of dance lives here." },
+    { Name: "ROBIN H.", Message: "Supporting with everything I have." },
+    { Name: "NAOMI P.", Message: "Five years and counting. Onwards." },
+    { Name: "LEILA N.", Message: "Because beauty matters. So does truth." },
+  ];
+
+  let cachedMessages = [];
+  let scrollY = 0;
+  let scrollRAF = null;
+
+  function esc(s) {
+    return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+  }
+
+  function messageKey(m) { return m.Name + "||" + m.Message; }
+
+  function buildWallContent() {
+    const source = cachedMessages.length ? cachedMessages : DEMO;
+    const sep = '<span class="w-sep">·</span>';
+    const unit = source.map(m => {
+      const h = Math.floor(Math.random() * 360);
+      const s = 50 + Math.floor(Math.random() * 30);
+      const l = 55 + Math.floor(Math.random() * 20);
+      const name = esc(m.Name.replace(/\s+/g, ''));
+      const msg  = esc(m.Message.replace(/\s+/g, ''));
+      const dur   = (3 + Math.random() * 5).toFixed(1);
+      const delay = (-Math.random() * 2).toFixed(1);
+      return `<span class="w-name" style="color:hsl(${h},${s}%,${l}%)">${name}</span> <span class="w-msg" style="--pulse-dur:${dur}s;--pulse-delay:${delay}s">${msg}</span>`;
+    }).join(sep);
+
+    const el = document.getElementById('textscroll');
+    const viewH = el.parentElement.clientHeight || window.innerHeight;
+
+    el.innerHTML = unit;
+    const unitH = el.scrollHeight || 1;
+    const repsPerHalf = Math.max(2, Math.ceil((viewH * 3) / unitH));
+    const half = Array(repsPerHalf).fill(unit).join(sep);
+    el.innerHTML = half + sep + half;
+  }
+
+  function buildWall(smooth = false) {
+    const el = document.getElementById('textscroll');
+    if (smooth) {
+      el.style.opacity = '0';
+      setTimeout(() => {
+        buildWallContent();
+        el.style.opacity = '1';
+      }, 500);
+    } else {
+      buildWallContent();
+      scrollY = 0;
+    }
+  }
+
+  function startScrolling() {
+    if (scrollRAF) cancelAnimationFrame(scrollRAF);
+    function tick() {
+      scrollY += 0.4;
+      const el = document.getElementById('textscroll');
+      const half = el.scrollHeight / 2;
+      if (half > 0 && scrollY >= half) scrollY -= half;
+      el.style.transform = `translateY(-${scrollY}px)`;
+      scrollRAF = requestAnimationFrame(tick);
+    }
+    scrollRAF = requestAnimationFrame(tick);
+  }
+
+  async function fetchMessages() {
+    try {
+      const r = await fetch(SHEET_URL);
+      const data = await r.json();
+      if (!Array.isArray(data) || !data.length) return null;
+      const rows = data.map(row => ({
+        Name:    row.Name    || row.name    || "",
+        Message: row.Message || row.message || "",
+      })).filter(row => row.Name && row.Message);
+      return rows.length ? rows : null;
+    } catch(e) {
+      return null;
+    }
+  }
+
+  async function refresh() {
+    const msgs = await fetchMessages();
+    if (!msgs) return;
+
+    const oldKeys = new Set(cachedMessages.map(messageKey));
+    const hasNew  = msgs.some(m => !oldKeys.has(messageKey(m)));
+
+    document.getElementById("count").textContent = msgs.length;
+    document.getElementById("status-dot").className = "live";
+
+    if (hasNew || msgs.length !== cachedMessages.length) {
+      cachedMessages = msgs;
+      buildWall(true);
+    }
+  }
+
+  async function init() {
+    const msgs = await fetchMessages();
+    if (msgs && msgs.length) {
+      cachedMessages = msgs;
+      document.getElementById("count").textContent = msgs.length;
+      document.getElementById("status-dot").className = "live";
+    } else {
+      document.getElementById("count").textContent = DEMO.length;
+    }
+    buildWall();
+    startScrolling();
+    setInterval(() => buildWall(true), 15000);
+    setInterval(refresh, REFRESH_MS);
+  }
+
+  window.addEventListener("resize", buildWall);
+
+  document.getElementById("fs-btn").addEventListener("click", () => {
+    if (!document.fullscreenElement) document.documentElement.requestFullscreen();
+    else document.exitFullscreen();
+  });
+
+  document.addEventListener("keydown", e => {
+    if (e.key === "f" || e.key === "F") {
+      if (!document.fullscreenElement) document.documentElement.requestFullscreen();
+      else document.exitFullscreen();
+    }
+  });
+
+  init();
+</script>
+
+</body>
+</html>

@@ -22,6 +22,15 @@
 // scans come in — artist photo paths are slugged by name, so the same
 // artist appearing on multiple pieces reuses one file.
 const ABST_PROJECT_GALLERIES = {
+  storywall: {
+    carousel: [
+      { src: '../images/proj5.jpg', alt: 'ABST Story Wall — installation at Tamna Comprehensive Welfare Center for the Disabled' },
+      { src: '../images/tam.jpg', alt: 'ABST Story Wall — framed catalogue pages on the wall' },
+      { src: '../images/hover5.jpg', alt: 'ABST Story Wall — visitors reading the panels' }
+    ],
+    artworks: [
+     ]
+  },
   flatland: {
     carousel: [
       { src: '../images/carousels/flatland-01.jpg', alt: 'Flatland Dream — installation view at the Jeju International Peace Centre' },
@@ -47,9 +56,9 @@ const ABST_PROJECT_GALLERIES = {
   },
   flatlandnlcs: {
     carousel: [
-      { src: '../images/carousels/flatlandnlcs-01.jpg', alt: 'NLCS Jeju students installing their work' },
-      { src: '../images/carousels/flatlandnlcs-02.jpg', alt: 'NLCS Jeju students at the exhibition opening' },
-      { src: '../images/carousels/flatlandnlcs-03.jpg', alt: 'NLCS Jeju collaborative pieces on display' }
+      { src: '../images/flatland-nlcs1.jpg', alt: 'NLCS Jeju students installing their work' },
+      { src: '../images/flatland-nlcs2.jpg', alt: 'NLCS Jeju students at the exhibition opening' },
+      { src: '../images/flatland-nlcs3.jpg', alt: 'NLCS Jeju collaborative pieces on display' }
     ],
     artworks: [
       { title: 'Untitled', artist: 'Lee Jun-seok', thumb: '../images/artworks/thumbs/flatlandnlcs-01.jpg', image: '../images/artworks/full/flatlandnlcs-01.jpg', description: '', artistCount: 1, artistPhotos: ['../images/artists/인사말페이지사용_이준석_Junseok Lee.jpg'] },
@@ -101,9 +110,10 @@ const ABST_PROJECT_GALLERIES = {
   },
   abstraction: {
     carousel: [
-      { src: '../images/carousels/abstraction-01.jpg', alt: 'Abstraction — process photo' },
-      { src: '../images/carousels/abstraction-02.jpg', alt: 'Abstraction — process photo' },
-      { src: '../images/carousels/abstraction-03.jpg', alt: 'Abstraction — process photo' }
+      { src: '../images/carousels/abstraction-01.jpg', alt: 'Abstraction — catalogue, prints, and merchandise on display' },
+      { src: '../images/carousels/abstraction-02.jpg', alt: 'Abstraction — visitor viewing the virtual gallery walkthrough' },
+      { src: '../images/carousels/abstraction-03.jpg', alt: 'Abstraction — interior of the virtual exhibition space' },
+      { src: '../images/carousels/abstraction-04.jpg', alt: 'Abstraction — rendered artwork from the virtual gallery' }
     ],
     artworks: [
       { title: 'Artwork 01', artist: 'Artist name coming soon', thumb: '../images/artworks/thumbs/abstraction-01.jpg', image: '../images/artworks/full/abstraction-01.jpg', description: '', artistCount: 1, artistPhotos: ['../images/artists/abstraction-artist-01.jpg'] },
