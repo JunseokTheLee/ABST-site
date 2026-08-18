@@ -77,10 +77,11 @@ const ABST_PROJECT_GALLERIES = {
     carousel: [
       { src: '../images/carousels/cradle-01.jpg', alt: 'Cradle — process photo' },
       { src: '../images/carousels/cradle-02.jpg', alt: 'Cradle — process photo' },
-      { src: '../images/carousels/cradle-03.jpg', alt: 'Cradle — process photo' }
+      { src: '../images/carousels/cradle-03.jpg', alt: 'Cradle — process photo' },
+      { src: '../images/carousels/cradle-04.png', alt: 'Cradle — process photo' }
     ],
     artworks: [
-      { title: 'Cradle', artist: 'Junseok Lee', thumb: '../images/cradle.png', images: ['../images/cradle.png', '../images/artworks/cradle/full/cradle-01-2.png', '../images/artworks/cradle/full/cradle-01-3.jpg'], video: 'https://www.youtube.com/watch?v=SrUVzZWSXH0', description: '', artistCount: 1, artistPhotos: ['../images/artists/인사말페이지사용_이준석_Junseok Lee.jpg'] },
+      { title: 'Cradle', artist: 'Junseok Lee', thumb: '../images/cradle.png', images: ['../images/cradle.png', '../images/artworks/cradle/full/cradle-01-2.png', '../images/artworks/cradle/full/cradle-01-3.jpg'], video: 'https://www.youtube.com/watch?v=yHJuuXVF91Q', description: '', artistCount: 1, artistPhotos: ['../images/artists/인사말페이지사용_이준석_Junseok Lee.jpg'] },
       { title: "Reality, Threshold", artist: "Woojin Son, Hyuna Sung", thumb: '../images/artworks/cradle/thumbs/Woojin Son _Hyuna Sung.png', image: '../images/artworks/cradle/full/Woojin Son _Hyuna Sung_1.png', description: '', artistCount: 2, artistPhotos: ["../images/artists/woojin-son.png", "../images/artists/hyuna-sung.png"] },
       { title: "Melody of the Guitar, The Child Who Tunes the Light", artist: "Hyunjun Ko, Jiwoon Bae", thumb: '../images/artworks/cradle/thumbs/Hyunjun Ko _Jiwoon Bae.png', image: '../images/artworks/cradle/full/Hyunjun Ko _Jiwoon Bae_1.png', description: '', artistCount: 2, artistPhotos: ["../images/artists/hyunjun-ko.jpg", "../images/artists/Jiwoon-Bae.jpg"] },
       { title: "Sunflower, Sunflowers", artist: "Yuna Lee, Yeeun Kim", thumb: '../images/artworks/cradle/thumbs/Yuna Lee_Yeeun Kim.png', image: '../images/artworks/cradle/full/Yuna Lee_Yeeun Kim_1.png', description: '', artistCount: 2, artistPhotos: ["../images/artists/yuna-lee.jpg", "../images/artists/yeeun-kim.jpg"] },
