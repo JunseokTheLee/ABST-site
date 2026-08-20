@@ -32,6 +32,19 @@ const ABST_PROJECTS = [
     hoverImage: 'images/hover1.jpg'
   },
   {
+    title: 'Beyond the Everyday · 2025',
+    meta: 'Invited Exhibition · 2025',
+    tag: 'Invited Exhibition',
+    excerpt: 'ABST was invited into a province-wide Jeju exhibition for disabled students, parents, and teachers, building a Virtual Art Museum for all 64 works on display.',
+    titleKo: '일상 그 너머의 기억과 변화전',
+    metaKo: '초청 전시 · 2025',
+    tagKo: '초청 전시',
+    excerptKo: '제주도 내 장애 학생·학부모·교사가 함께하는 전도 미술전시회에 초청되어, 출품작 64점 전체를 담은 Virtual Art Museum을 제작했습니다.',
+    url: 'projects/jejuintegrated.html',
+    image: 'images/jejuinte.png',
+    hoverImage: 'images/jejuinte1.jpg'
+  },
+  {
     title: 'Flatland Dream — NLCS Jeju · 2025',
     meta: 'Partner School',
     tag: 'Partner School',

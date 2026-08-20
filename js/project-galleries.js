@@ -109,6 +109,18 @@ const ABST_PROJECT_GALLERIES = {
       { title: "Johann Sebastian Bach Prelude and Fugue in G major, BWV 884 from The Well-Tempered Clavier, Book II", artist: "Doyun Kim", thumb: '../images/artworks/cradle/thumbs/doyun.jpg', image: '../images/artworks/cradle/full/doyun.jpg', description: '', artistCount: 1, artistPhotos: ["../images/artists/doyun-kim.jpg"] }
     ]
   },
+  jejuintegrated: {
+    carousel: [
+      { src: '../images/jejuinte1.jpg', alt: 'Beyond the Everyday — installation view at the Jeju Culture & Arts Center' },
+      { src: '../images/jejuinte2.jpg', alt: 'Beyond the Everyday — exhibition hall' },
+      { src: '../images/jejuinte.png', alt: 'Beyond the Everyday — Virtual Art Museum in use' }
+     
+    ],
+    artworks: [
+      { title: 'My Friends Came to Visit My House, My Friends Also Came to Visit', artist: 'Jaeyong Choi, Zion Choi', thumb: '../images/artworks/flatland/thumbs/jaeyong-zion.png', image: '../images/artworks/flatland/full/jaeyong-zion.png', description: '', artistCount: 2, artistPhotos: ['../images/artists/Jaeyong-Choi.png', '../images/artists/최시온_NLCS - Zion Choi.jpg'] },
+      { title: 'My Family, Running Towards My Family', artist: 'Sun Lee, Minjae Kang', thumb: '../images/artworks/flatland/thumbs/minjae.png', image: '../images/artworks/flatland/full/minjae.png', description: '', artistCount: 2, artistPhotos: ['../images/artists/sun-lee.png', '../images/artists/강민재_NLCS - Minjae Kang.jpeg'] }
+    ]
+  },
   abstraction: {
     carousel: [
       { src: '../images/carousels/abstraction-01.jpg', alt: 'Abstraction — catalogue, prints, and merchandise on display' },
