@@ -78,7 +78,11 @@ const ABST_PROJECT_GALLERIES = {
       { src: '../images/carousels/cradle-01.jpg', alt: 'Cradle — process photo' },
       { src: '../images/carousels/cradle-02.jpg', alt: 'Cradle — process photo' },
       { src: '../images/carousels/cradle-03.jpg', alt: 'Cradle — process photo' },
-      { src: '../images/carousels/cradle-04.png', alt: 'Cradle — process photo' }
+      { src: '../images/carousels/cradle-04.jpg', alt: 'Cradle — process photo' },
+      { src: '../images/carousels/cradle-05.jpg', alt: 'Cradle — process photo' },
+      { src: '../images/carousels/cradle-06.jpg', alt: 'Cradle — process photo' },
+      { src: '../images/carousels/cradle-07.jpg', alt: 'Cradle — process photo' },
+      { src: '../images/carousels/cradle-08.jpg', alt: 'Cradle — process photo' }
     ],
     artworks: [
       { title: 'Cradle', artist: 'Junseok Lee', thumb: '../images/cradle.png', images: ['../images/cradle.png', '../images/artworks/cradle/full/cradle-01-2.png', '../images/artworks/cradle/full/cradle-01-3.jpg', '../images/artworks/cradle/full/cradle-01-5.png', '../images/artworks/cradle/full/cradle-01-4.png'], video: 'https://www.youtube.com/watch?v=yHJuuXVF91Q', description: '', artistCount: 1, artistPhotos: ['../images/artists/인사말페이지사용_이준석_Junseok Lee.jpg'] },
